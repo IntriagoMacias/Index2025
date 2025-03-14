@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario con Bootstrap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Bootstrap</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-3">Formulario</h2>
+        <form id="formulario">
+            <div class="row mb-3">
+                <label for="nombres" class="col-sm-3 col-form-label">Nombres</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="nombres" placeholder="Ingrese sus nombres">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="cedula" class="col-sm-3 col-form-label">Número de Cédula</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="cedula" placeholder="Ingrese su número de cédula">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="correo" class="col-sm-3 col-form-label">Correo</label>
+                <div class="col-sm-9">
+                    <input type="email" class="form-control" id="correo" placeholder="Ingrese su correo">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="direccion" class="col-sm-3 col-form-label">Dirección</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="direccion" rows="2" placeholder="Ingrese su dirección"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-9 offset-sm-3">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <br><br>
+        <table class="table table-striped table-hover table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">CÉDULA</th>
+                    <th scope="col">CORREO</th>
+                    <th scope="col">DIRECCIÓN</th>
+                    <th scope="col">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody id="tablaDatos">
+                <!-- Los datos ingresados se agregarán aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('formulario').addEventListener('submit', function(event) {
+            event.preventDefault();  // Evita que el formulario recargue la página
+
+            // Obtener los valores de los campos
+            const nombre = document.getElementById('nombres').value;
+            const cedula = document.getElementById('cedula').value;
+            const correo = document.getElementById('correo').value;
+            const direccion = document.getElementById('direccion').value;
+
+            // Crear una nueva fila para la tabla
+            const tabla = document.getElementById('tablaDatos');
+            const nuevaFila = document.createElement('tr');
+
+            // Crear las celdas de la nueva fila
+            nuevaFila.innerHTML = `
+                <td></td>
+                <td>${nombre}</td>
+                <td>${cedula}</td>
+                <td>${correo}</td>
+                <td>${direccion}</td>
+                <td><button class="btn btn-danger btn-sm eliminar">Eliminar</button></td>
+            `;
+
+            // Añadir la nueva fila a la tabla
+            tabla.appendChild(nuevaFila);
+
+            // Asignar el número de fila (para el índice)
+            const filas = tabla.getElementsByTagName('tr');
+            for (let i = 0; i < filas.length; i++) {
+                filas[i].children[0].textContent = i;  // Número de fila (índice)
+            }
+
+            // Limpiar el formulario después de agregar los datos
+            document.getElementById('formulario').reset();
+        });
+
+        // Delegación de eventos para el botón de eliminar
+        document.getElementById('tablaDatos').addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('eliminar')) {
+                const fila = event.target.closest('tr');
+                fila.remove();  // Eliminar la fila de la tabla
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
